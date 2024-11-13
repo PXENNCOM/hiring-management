@@ -13,7 +13,7 @@ const About = () => {
             <div className='aboutContainer'>
                 <div className='aboutDescBanner'>
                     <img className='ONDERLOGO' src="https://www.onder.org.tr/assets/images/statics/onder-logo.svg" alt="Önder Logo" />
-                    <h1>HAKKIMIZDA</h1>
+                    <h1>HAKKIMIZDA as</h1>
                     <p>ÖNDER İmam Hatipliler Derneği olarak geliştirdiğimiz Kariyer Platformu, sadece derneğimiz bünyesindeki iş ilanlarını paylaşmaktadır. </p>
                 </div>
                 <div className='aboutContent'>
