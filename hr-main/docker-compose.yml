@@ -1,0 +1,76 @@
+services:
+  backend-dev:
+    image: kariyer-backend
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - NODE_ENV=production
+      - DB_HOST=onder_mysqldb
+      - DB_USER=root
+      - DB_PASSWORD=1453Abdullah*
+      - DB_NAME=onder
+      - PORT=8082
+      - CORS_ORIGIN=http://localhost:4041
+      - UPLOAD_DIR=uploads
+    volumes:
+      - ./server:/app
+    networks:
+      - onder-wlan
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8082/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  frontend:
+    container_name: onder_frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=production
+      - REACT_APP_API_URL=http://localhost:9091
+    depends_on:
+      backend-dev:
+        condition: service_healthy
+    ports:
+      - 8140:80
+    networks:
+      - onder-wlan
+    restart: unless-stopped
+
+  db:
+    container_name: onder_mysqldb
+    image: mariadb
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 1453Abdullah*
+      MYSQL_DATABASE: onder
+      MARIADB_MYSQL_LOCALHOST_USER: 1
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "--password=1453Abdullah*"]
+      interval: 15s
+      timeout: 10s
+      retries: 10
+      start_period: 60s
+    networks:
+      - onder-wlan
+    volumes:
+      - db:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+networks:
+  onder-wlan:
+    name: onder-wlan
+    driver: bridge
+
+volumes:
+  backend:
+  frontend:
+  db:

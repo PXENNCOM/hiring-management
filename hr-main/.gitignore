@@ -1,0 +1,9 @@
+/frontend/node_modules
+/frontend/.env.development
+/frontend/.env.production
+
+
+/server/node_modules
+/server/.env.development
+/server/.env.production
+/server/uploads
