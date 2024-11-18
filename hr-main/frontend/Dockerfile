@@ -2,8 +2,8 @@ FROM node:18-alpine as build
 
 WORKDIR /app
 COPY package*.json ./
-ARG BASE_URL=https://kariyer.onder.org.tr
-ENV REACT_APP_API_URL=${BASE_URL}
+ENV REACT_APP_API_URL=https://test.layusoft.com
+ENV NODE_ENV=production
 RUN npm install
 COPY . .
 RUN npm run build

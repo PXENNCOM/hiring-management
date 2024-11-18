@@ -32,7 +32,7 @@ const MerkezİlanForm = () => {
         e.preventDefault();
         try {
             // İlanı oluştur
-            const response = await axios.post(`${API_URL}/merkez-ilanlar`, {
+            const response = await axios.post(`${API_URL}/api/merkez-ilanlar`, {
                 ...ilanData,
                 job_id: ilanData.job_id, // job_id'yi gönder
                 user_id: 1, // Veya dinamik bir kullanıcı ID'si

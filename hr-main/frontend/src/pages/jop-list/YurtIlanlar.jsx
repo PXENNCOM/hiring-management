@@ -13,7 +13,7 @@ const YurtIlanlar = () => {
 
     const fetchYurtIlanlar = async () => {
         try {
-            const response = await axios.get(`${API_URL}/yurt-ilanlar`);
+            const response = await axios.get(`${API_URL}/api/yurt-ilanlar`);
             console.log('Yurt ilanları başarıyla alındı:', response.data);
             setYurtIlanlar(response.data);
         } catch (err) {

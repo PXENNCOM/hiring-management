@@ -94,7 +94,7 @@ const YurtForm = () => {
 
             setLoading(true);
             try {
-                const response = await axios.get(`${API_URL}/yurt-ilanlar/${id}`);
+                const response = await axios.get(`${API_URL}/api/yurt-ilanlar/${id}`);
                 console.log('API yanıtı:', response.data);
                 setyurtIlanlar(response.data)
             } catch (err) {
@@ -228,7 +228,8 @@ const YurtForm = () => {
 
             const basvuruResponse = await axios.post(`${API_URL}/api/basvurular`, {
                 userId: userId,
-                ilanId: id
+                ilanId: id,
+                ilantype: "yurt"
             });
 
             if (!basvuruResponse.data.id) {
