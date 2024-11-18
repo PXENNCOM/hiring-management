@@ -1,5 +1,4 @@
 FROM node:18-alpine
-
 WORKDIR /app
 
 # Production için NODE_ENV ayarla
@@ -13,10 +12,10 @@ RUN mkdir -p ${UPLOAD_DIR}/gallery ${UPLOAD_DIR}/slider && \
 # Sadece production dependencies'leri yükle
 COPY package*.json ./
 RUN npm ci --only=production
-
+RUN apk add curl
 # Kaynak kodları kopyala
 COPY . .
 
 EXPOSE 8082
 
-CMD ["node", "index.js"]
+CMD ["node", "server.js"]

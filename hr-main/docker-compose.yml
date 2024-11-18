@@ -1,6 +1,7 @@
 services:
   backend-dev:
     image: kariyer-backend
+    container_name: onder_backend
     build:
       context: ./server
       dockerfile: Dockerfile
@@ -17,24 +18,21 @@ services:
       - CORS_ORIGIN=http://localhost:4041
       - UPLOAD_DIR=uploads
     volumes:
-      - ./server:/app
+      - backend:/app
     networks:
       - onder-wlan
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8082/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:8082/api/yurt-ilanlar"]
       interval: 30s
-      timeout: 10s
-      retries: 3
+      timeout: 5m
+      retries: 100
 
   frontend:
     container_name: onder_frontend
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    environment:
-      - NODE_ENV=production
-      - REACT_APP_API_URL=http://localhost:9091
     depends_on:
       backend-dev:
         condition: service_healthy
@@ -54,11 +52,11 @@ services:
       MYSQL_DATABASE: onder
       MARIADB_MYSQL_LOCALHOST_USER: 1
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "--password=1453Abdullah*"]
-      interval: 15s
-      timeout: 10s
-      retries: 10
-      start_period: 60s
+        test: [ "CMD", "healthcheck.sh", "--su-mysql", "--connect", "--innodb_initialized" ]
+        start_period: 30s
+        interval: 20s
+        timeout: 5m
+        retries: 100
     networks:
       - onder-wlan
     volumes:

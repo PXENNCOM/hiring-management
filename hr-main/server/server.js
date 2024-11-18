@@ -343,7 +343,7 @@ app.post('/api/referanslar', async (req, res) => {
 
 
 // yurt_ilanlar için GET endpoint
-app.get('/yurt-ilanlar', (req, res) => {
+app.get('/api/yurt-ilanlar', (req, res) => {
     db.query('SELECT * FROM yurt_ilanlar', (err, results) => {
         if (err) {
             return res.status(500).json({ error: err.message });
@@ -353,7 +353,7 @@ app.get('/yurt-ilanlar', (req, res) => {
 });
 
 // yurt_ilanlar için GET endpoint (belirli bir id ile)
-app.get('/yurt-ilanlar/:id', (req, res) => {
+app.get('/api/yurt-ilanlar/:id', (req, res) => {
     const ilanId = req.params.id;  // :id parametresini al
     db.query('SELECT * FROM yurt_ilanlar WHERE id = ?', [ilanId], (err, results) => {
         if (err) {
@@ -372,7 +372,7 @@ app.get('/yurt-ilanlar/:id', (req, res) => {
 
 
 
-app.post('/yurt-ilanlar', (req, res) => {
+app.post('/api/yurt-ilanlar', (req, res) => {
     const ilan = {
         user_id: req.body.user_id, // Kullanıcı ID
         job_id: req.body.job_id,
@@ -397,7 +397,7 @@ app.post('/yurt-ilanlar', (req, res) => {
 
 
 // merkez_ilanlar için GET endpoint
-app.get('/merkez-ilanlar', (req, res) => {
+app.get('/api/merkez-ilanlar', (req, res) => {
     db.query('SELECT * FROM merkez_ilanlar', (err, results) => {
         if (err) {
             return res.status(500).json({ error: err.message });
@@ -407,7 +407,7 @@ app.get('/merkez-ilanlar', (req, res) => {
 });
 
 // merkez_ilanlar için GET endpoint (belirli bir id ile)
-app.get('/merkez-ilanlar/:id', (req, res) => {
+app.get('/api/merkez-ilanlar/:id', (req, res) => {
     const ilanId = req.params.id;  // :id parametresini al
     db.query('SELECT * FROM merkez_ilanlar WHERE id = ?', [ilanId], (err, results) => {
         if (err) {
@@ -425,7 +425,7 @@ app.get('/merkez-ilanlar/:id', (req, res) => {
 });
 
 
-app.post('/merkez-ilanlar', (req, res) => {
+app.post('/api/merkez-ilanlar', (req, res) => {
     const ilan = {
         user_id: req.body.user_id, // Kullanıcı ID
         job_id: req.body.job_id,
@@ -460,6 +460,7 @@ app.post('/api/basvurular', (req, res) => {
     const basvuru = {
         user_id: userId,
         ilan_id: ilanId,
+        ilan_type: req.body.ilantype == "merkez" ? "merkez": "yurt",
         basvuru_tarihi: new Date() // İsteğe bağlı: başvuru tarihini otomatik ekle
     };
 
@@ -541,7 +542,7 @@ app.get('/api/tum-basvurular/yurt', async (req, res) => {
         const detayliIlanlar = await Promise.all(ilanlar.map(async (ilan) => {
             // İlana ait başvuruları bul
             const [basvurular] = await db.promise().query(
-                'SELECT user_id FROM basvurular WHERE ilan_id = ?',
+                'SELECT user_id FROM basvurular WHERE ilan_id = ? AND ilan_type="yurt"',
                 [ilan.id]
             );
 
@@ -617,7 +618,7 @@ app.get('/api/tum-basvurular/merkez', async (req, res) => {
         const detayliIlanlar = await Promise.all(ilanlar.map(async (ilan) => {
             // İlana ait başvuruları bul
             const [basvurular] = await db.promise().query(
-                'SELECT user_id FROM basvurular WHERE ilan_id = ?',
+                'SELECT user_id FROM basvurular WHERE ilan_id = ? AND ilan_type="merkez"',
                 [ilan.id]
             );
 

@@ -14,7 +14,7 @@ const MerkezIlanlar = () => {
 
     const fetchMerkezIlanlar = async () => {
         try {
-            const response = await axios.get(`${API_URL}/merkez-ilanlar`);
+            const response = await axios.get(`${API_URL}/api/merkez-ilanlar`);
             console.log('Merkez ilanları başarıyla alındı:', response.data);
             setMerkezIlanlar(response.data);
         } catch (err) {

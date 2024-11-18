@@ -21,6 +21,8 @@ CREATE TABLE users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+INSERT INTO users (ad, soyad, email) values ('admin','admin','admin@onder.org');
+
 -- Education information table
 CREATE TABLE egitim (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -65,7 +67,7 @@ CREATE TABLE yabanci_dil (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
     dil_adi VARCHAR(50) NOT NULL,
-    seviye VARCHAR(20) NOT NULL,
+    seviye VARCHAR(50) NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
@@ -115,6 +117,7 @@ CREATE TABLE basvurular (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
     ilan_id INT NOT NULL,
+    ilan_type VARCHAR(10),
     basvuru_tarihi TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );

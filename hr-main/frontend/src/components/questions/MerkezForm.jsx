@@ -94,7 +94,7 @@ const MerkezForm = () => {
 
             setLoading(true);
             try {
-                const response = await axios.get(`${API_URL}/merkez-ilanlar/${id}`);
+                const response = await axios.get(`${API_URL}/api/merkez-ilanlar/${id}`);
                 console.log('API yanıtı:', response.data);
                 setMerkezIlanlar(response.data)
             } catch (err) {
@@ -222,7 +222,8 @@ const MerkezForm = () => {
 
             const basvuruResponse = await axios.post(`${API_URL}/api/basvurular`, {
                 userId: userId,
-                ilanId: id
+                ilanId: id,
+                ilantype: "merkez"
             });
 
             if (!basvuruResponse.data.id) {

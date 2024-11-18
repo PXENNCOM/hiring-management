@@ -28,7 +28,7 @@ const YurtIlanForm = () => {
        e.preventDefault();
        try {
            // İlanı oluştur
-           const response = await axios.post(`${API_URL}/yurt-ilanlar`, {
+           const response = await axios.post(`${API_URL}/api/yurt-ilanlar`, {
                ...ilanData,
                job_id: ilanData.job_id,
                user_id: 1, // Veya dinamik bir kullanıcı ID'si
